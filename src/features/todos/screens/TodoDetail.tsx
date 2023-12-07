@@ -145,7 +145,7 @@ const TodoDetailScreen: FC<
           placeholder="Title"
           value={todo.title}
           style={[styles.titleInput, {color: theme.colors.text}]}
-          placeholderTextColor={theme.colors.text}
+          placeholderTextColor={theme.colors.caption}
           onChangeText={(value: string) => onChangeTitle(value)}></TextInput>
         <ScrollView showsVerticalScrollIndicator={false}>
           {todo &&

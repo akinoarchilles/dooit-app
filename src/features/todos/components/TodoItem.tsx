@@ -41,7 +41,7 @@ const TodoItem: FC<TodoItemProps> = props => {
         placeholder="To-do"
         value={content}
         style={{color: theme.colors.text}}
-        placeholderTextColor={theme.colors.text}
+        placeholderTextColor={theme.colors.caption}
         onChangeText={onChangeText}
         autoFocus={isNew ? false : true}></TextInput>
     </Row>
