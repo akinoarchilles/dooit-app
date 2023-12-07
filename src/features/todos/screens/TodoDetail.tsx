@@ -20,6 +20,7 @@ import TodoRedux from '../models/TodoRedux';
 import TodoInterface from '../models/interfaces/Todo.interface';
 import TodoLabelEnum from '../models/interfaces/enum/TodoLabel.enum';
 import {generateRandomColor} from '@utils/color';
+import {useAppTheme} from '@providers/theme';
 
 const Text = customText<'regular'>();
 
@@ -34,7 +35,7 @@ const TodoDetailScreen: FC<
   const {todo: todoProps, index} = route.params || {
     index: 0,
   };
-  const dispatch = useDispatch();
+  const theme = useAppTheme();
 
   const {list} = useStore('todos') as TodoRedux;
   const [todo, setTodo] = useState<TodoInterface>(
@@ -137,7 +138,8 @@ const TodoDetailScreen: FC<
   );
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, {backgroundColor: theme.colors.background}]}>
       <View style={styles.content}>
         <TextInput
           placeholder="Title"

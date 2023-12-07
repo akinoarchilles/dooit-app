@@ -9,7 +9,7 @@ import React, {FC} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {customText} from 'react-native-paper';
 
-const Text = customText<'bold'>();
+const Text = customText<'regular'>();
 
 const EmptyList: FC<any> = ({}) => {
   const navigation =
@@ -30,7 +30,7 @@ const EmptyList: FC<any> = ({}) => {
         }`}
       />
       <View style={styles.container}>
-        <Text variant="bold" style={styles.caption}>
+        <Text variant="regular" style={styles.caption}>
           Create your first to-do list...
         </Text>
         <Button icon={'plus'} contentStyle={{padding: 8}} onPress={onPressNew}>
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   caption: {
+    fontSize: 20,
     marginBottom: 12,
   },
 });
