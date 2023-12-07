@@ -1,9 +1,11 @@
 import LogoHorizontal from '@components/LogoHorizontal';
+import Row from '@components/Row';
+import {StoreContext} from '@providers/StoreContext';
 import {useDispatch, useStore} from '@providers/StoreContext.provider';
 import {useAppTheme} from '@providers/theme';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {GeneralStackParamList} from '@screens/index';
-import {FC, useEffect} from 'react';
+import {FC, useContext, useEffect} from 'react';
 import {DeviceEventEmitter, ScrollView, StyleSheet, View} from 'react-native';
 import {IconButton} from 'react-native-paper';
 import EmptyList from '../components/EmptyList';
@@ -15,6 +17,7 @@ const HomeScreen: FC<NativeStackScreenProps<GeneralStackParamList, 'Home'>> = ({
   navigation,
 }) => {
   const theme = useAppTheme();
+  const preferences = useContext(StoreContext);
   const dispatch = useDispatch();
   const {list} = useStore('todos') as TodoRedux;
 
@@ -52,11 +55,24 @@ const HomeScreen: FC<NativeStackScreenProps<GeneralStackParamList, 'Home'>> = ({
     });
   };
 
+  const onToggleTheme = () => {
+    preferences.setTheme(preferences.theme === 'light' ? 'dark' : 'light');
+  };
+
   return (
     <View
       style={[styles.container, {backgroundColor: theme.colors.background}]}>
-      <View style={styles.logo}>
-        <LogoHorizontal />
+      <View style={styles.header}>
+        <View style={styles.logo}>
+          <LogoHorizontal />
+        </View>
+        <Row>
+          <IconButton
+            icon={'theme-light-dark'}
+            size={22}
+            onPress={onToggleTheme}
+          />
+        </Row>
       </View>
       {list.length > 0 ? (
         <>
@@ -94,6 +110,11 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   logo: {
     padding: 8,

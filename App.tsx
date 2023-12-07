@@ -1,16 +1,17 @@
 import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {BackHandler, StyleSheet} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {MD3Theme, PaperProvider} from 'react-native-paper';
 import {NavigationTheme} from 'react-native-paper/lib/typescript/types';
 import {StoreContext} from './src/providers/StoreContext';
 import StoreProvider from './src/providers/StoreContext.provider';
-import {CustomDefaultTheme} from './src/providers/theme';
+import {CustomDarkTheme, CustomDefaultTheme} from './src/providers/theme';
 import AppScreens from './src/screens';
 import {navigationRef} from './src/utils/navigation';
 import Storage from '@utils/async-storage';
 import StoreConstants from '@constants/store';
+import {DarkTheme} from '@providers/theme/theme';
 
 type ThemeType = {
   paper: MD3Theme;
@@ -55,18 +56,27 @@ function App(): JSX.Element {
         StoreConstants.STORE,
         `{"todos": {"list": []}}`,
       );
-
       setInitialState(JSON.parse(store));
     }
     getInitialStore();
   }, []);
 
+  const toggleTheme = useCallback(() => {
+    return setIsThemeDark(!isThemeDark);
+  }, [isThemeDark]);
+
+  const preferences = useMemo(() => {
+    return {setTheme: toggleTheme, theme: isThemeDark ? 'dark' : 'light'};
+  }, [toggleTheme, isThemeDark]);
+
   return (
-    <StoreContext.Provider value={{theme: isThemeDark ? 'dark' : 'light'}}>
-      <PaperProvider theme={theme.paper}>
+    <StoreContext.Provider value={preferences}>
+      <PaperProvider theme={isThemeDark ? CustomDarkTheme : CustomDefaultTheme}>
         {initialState && (
           <StoreProvider initial={initialState}>
-            <NavigationContainer ref={navigationRef} theme={theme.navigation}>
+            <NavigationContainer
+              ref={navigationRef}
+              theme={isThemeDark ? DarkTheme : DefaultTheme}>
               <GestureHandlerRootView style={styles.container}>
                 <AppScreens />
               </GestureHandlerRootView>

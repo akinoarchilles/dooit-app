@@ -40,6 +40,8 @@ const TodoItem: FC<TodoItemProps> = props => {
       <TextInput
         placeholder="To-do"
         value={content}
+        style={{color: theme.colors.text}}
+        placeholderTextColor={theme.colors.text}
         onChangeText={onChangeText}
         autoFocus={isNew ? false : true}></TextInput>
     </Row>
